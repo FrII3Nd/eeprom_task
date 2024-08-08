@@ -132,7 +132,7 @@ void cli_explorer(char* token) {
 
     if ((strcmp(subtoken, "-h") == 0))  // Check key1 -h
     {
-      Serial.print("                  EEPROM NANUAL                  \n\n     Syntax:  eeprom [key1] [key2] [address] [key3] [value]\n");
+      Serial.print("                  EEPROM MANUAL                  \n\n     Syntax:  eeprom [key1] [key2] [address] [key3] [value]\n");
       Serial.print("     key1:  -w : Write to EEPROM. Example: \"eeprom -w [key2] [address] [key3] [value]\"\n            -r : Read from EEPROM. Example: \"eeprom -r [key2] [address]\"\n");
       Serial.print("            -e : Clear EEPROM cell. Example: \"eeprom -e [key2] [address]\"\n            -d : Output a memory dump. Example: \"eeprom -d\"\n            -h : Open manual. Example: \"eeprom -h\"\n");
       Serial.print("     key2:  -a : Key for selecting memory cell address. Example: \"eeprom [key1] -a 10\"\n");

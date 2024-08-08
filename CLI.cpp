@@ -2,6 +2,7 @@
 
 char buffer[BUF_SIZE];
 char* token;
+//bool pass;
 void console_init() {
   Serial.begin(baud);
   Serial.setTimeout(timeout);
@@ -18,6 +19,7 @@ void console_scan() {
   }
 }
 void cli_explorer(char* token) {
+  //pass = true;
   char* subtoken = strtok(token, " ");
   if (strcmp(subtoken, "eeprom") == 0)  //Check command
   {
@@ -32,7 +34,7 @@ void cli_explorer(char* token) {
       {
         subtoken = strtok('\0', " ");
         int addr = atoi(subtoken);
-        if (addr > EEPROM_SIZE || addr < 0)  //Check address
+        if (addr > EEPROM_SIZE || addr < 0 || !digit_check(subtoken))  //Check address
         {
           ERROR(3, subtoken);  // Incorrect address
           return 0;
@@ -41,7 +43,7 @@ void cli_explorer(char* token) {
         if (strcmp(subtoken, "-v") == 0)  // Check key3 -v
         {
           subtoken = strtok('\0', " ");
-          if (atoi(subtoken) > 255 || atoi(subtoken) < 0)  //Check value
+          if (atoi(subtoken) > 255 || atoi(subtoken) < 0 || !digit_check(subtoken))  //Check value
           {
             ERROR(4, subtoken);  // Incorrect value
             return 0;
@@ -70,9 +72,9 @@ void cli_explorer(char* token) {
       {
         Serial.println("Reading from eeprom...");
         subtoken = strtok('\0', " ");
-        if (atoi(subtoken) > EEPROM_SIZE || atoi(subtoken) < 0)  //Check address
+        if (atoi(subtoken) > EEPROM_SIZE || atoi(subtoken) < 0 || !digit_check(subtoken))  //Check address
         {
-          ERROR(3, subtoken);  //Incorrect address
+          ERROR(3, subtoken);
           return 0;
         }
         Serial.print("Reading success: (");
@@ -92,7 +94,7 @@ void cli_explorer(char* token) {
       {
         subtoken = strtok('\0', " ");
         Serial.println("Clearing eeprom cell...");
-        if (atoi(subtoken) > EEPROM_SIZE || atoi(subtoken) < 0)  //Check address
+        if (atoi(subtoken) > EEPROM_SIZE || atoi(subtoken) < 0 || !digit_check(subtoken))  //Check address
         {
           ERROR(3, subtoken);  //Incorrect address
           return 0;
@@ -164,4 +166,13 @@ void ERROR(int key, char* data) {
       return 0;
     default: return 0;
   }
+}
+bool digit_check(char* str) {
+  char* string = str;
+  for (int i = 0; i < strlen(string); i++) {
+    if (isdigit(string[i]) == 0) {
+      return false;
+    }
+  }
+  return true;
 }

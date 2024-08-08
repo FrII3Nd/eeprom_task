@@ -18,5 +18,6 @@ void console_init();
 void console_scan();
 void cli_explorer(char* token);
 void ERROR(int key, char* data);
+bool digit_check(char* str);
 
 #endif

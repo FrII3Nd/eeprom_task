@@ -41,7 +41,7 @@ void cli_explorer(char* token) {
         if (strcmp(subtoken, "-v") == 0)  // Check key3 -v
         {
           subtoken = strtok('\0', " ");
-          if (atoi(subtoken) > 255 || atoi(subtoken) < 0 || !digit_check(subtoken))  //Check value
+          if (atoi(subtoken) > 255 || atoi(subtoken) < 0 || !digit_check(subtoken) || subtoken == '\0')  //Check value
           {
             ERROR(4, subtoken);  // Incorrect value
             return 0;
@@ -156,10 +156,10 @@ void ERROR(int key, char* data) {
     case 2:  // Key сheckout fail
       Serial.println("Error: Incorrect syntax! (use \"eeprom -h\" for more information)");
       return 0;
-    case 3:  // Check address
+    case 3:  // Address checkout fail
       Serial.println("Error: Incorrect address!");
       return 0;
-    case 4:  //Check value
+    case 4:  // Value checkout fail
       Serial.println("Error: Incorrect value! (Use 0 - 255)");
       return 0;
     default: return 0;

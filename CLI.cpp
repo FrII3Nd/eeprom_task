@@ -2,7 +2,6 @@
 
 char buffer[BUF_SIZE];
 char* token;
-//bool pass;
 void console_init() {
   Serial.begin(baud);
   Serial.setTimeout(timeout);
@@ -19,7 +18,6 @@ void console_scan() {
   }
 }
 void cli_explorer(char* token) {
-  //pass = true;
   char* subtoken = strtok(token, " ");
   if (strcmp(subtoken, "eeprom") == 0)  //Check command
   {

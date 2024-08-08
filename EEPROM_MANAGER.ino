@@ -1,9 +1,13 @@
+/*
+  CLI to control eeprom Arduino Nano
+  Use Serial Monitor as console
+*/
+
 #include "CLI.h"
-void setup() 
-{
-  console_init(9600,50); //(baud,timeout)
+
+void setup() {
+  console_init();
 }
-void loop() 
-{
+void loop() {
   console_scan();
 }

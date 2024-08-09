@@ -11,7 +11,7 @@
 #define baud 9600         // Serial Monitor baud
 #define timeout 50        // Time delay
 
-
+extern int buf_len;
 extern char buffer[BUF_SIZE];
 extern char* token;
 void console_init();

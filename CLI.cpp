@@ -1,6 +1,7 @@
 #include "CLI.h"
 
 char buffer[BUF_SIZE];
+int buf_len = 0;
 char* token;
 void console_init() {
   Serial.begin(baud);
@@ -8,13 +9,17 @@ void console_init() {
   Serial.println("\n---------------CLI enable---------------");
 }
 void console_scan() {
-  while (Serial.available() > 0) {
-    Serial.readBytes((byte*)&buffer, sizeof(buffer));
-    Serial.print("\n>>");
-    Serial.println(buffer);
-    token = buffer;
-    cli_explorer(token);
+  if (Serial.available() > 0) {
     memset(buffer, 0, sizeof(buffer));
+    buf_len = Serial.readBytesUntil('\n', buffer, BUF_SIZE - 1);
+    if (buffer[strlen(buffer) - 1] < 45) {  //format buffer for putty
+      buffer[strlen(buffer) - 1] = ' ';
+      buffer[strlen(buffer)] = '\0';
+    }
+    token = buffer;
+    Serial.print(">>");
+    Serial.println(token);
+    cli_explorer(token);
   }
 }
 void cli_explorer(char* token) {
@@ -70,7 +75,7 @@ void cli_explorer(char* token) {
       {
         Serial.println("Reading from eeprom...");
         subtoken = strtok('\0', " ");
-        if (atoi(subtoken) > EEPROM_SIZE || atoi(subtoken) < 0 || !digit_check(subtoken))  //Check address
+        if (atoi(subtoken) > EEPROM_SIZE || atoi(subtoken) < 0 || !digit_check(subtoken) || subtoken == '\0')  //Check address
         {
           ERROR(3, subtoken);
           return 0;

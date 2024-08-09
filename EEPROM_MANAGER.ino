@@ -1,6 +1,6 @@
 /*
   CLI to control eeprom Arduino Nano
-  Use Serial Monitor as console
+  Use Serial Monitor or PuTTY console
 */
 
 #include "CLI.h"

@@ -43,10 +43,10 @@ void cli_explorer(char* token) {
           return 0;
         }
         subtoken = strtok('\0', " ");
-        if (strcmp(subtoken, "-v") == 0)  // Check key3 -v
+        if (strcmp(subtoken, "-v") == 0 )  // Check key3 -v
         {
           subtoken = strtok('\0', " ");
-          if (atoi(subtoken) > 255 || atoi(subtoken) < 0 || !digit_check(subtoken) || subtoken == '\0')  //Check value
+          if (atoi(subtoken) > 255 || atoi(subtoken) < 0 || !digit_check(subtoken) || subtoken == '\0'|| strtok('\0', " ") != NULL)  //Check value
           {
             ERROR(4, subtoken);  // Incorrect value
             return 0;
@@ -71,11 +71,11 @@ void cli_explorer(char* token) {
     if ((strcmp(subtoken, "-r") == 0))  // Check key1 -r
     {
       subtoken = strtok('\0', " ");
-      if (strcmp(subtoken, "-a") == 0)  // Check key2 -a
+      if (strcmp(subtoken, "-a") == 0 )  // Check key2 -a
       {
         Serial.println("Reading from eeprom...");
         subtoken = strtok('\0', " ");
-        if (atoi(subtoken) > EEPROM_SIZE || atoi(subtoken) < 0 || !digit_check(subtoken) || subtoken == '\0')  //Check address
+        if (atoi(subtoken) > EEPROM_SIZE || atoi(subtoken) < 0 || !digit_check(subtoken) || subtoken == '\0' || strtok('\0', " ") != NULL)  //Check address
         {
           ERROR(3, subtoken);
           return 0;
@@ -97,7 +97,7 @@ void cli_explorer(char* token) {
       {
         subtoken = strtok('\0', " ");
         Serial.println("Clearing eeprom cell...");
-        if (atoi(subtoken) > EEPROM_SIZE || atoi(subtoken) < 0 || !digit_check(subtoken))  //Check address
+        if (atoi(subtoken) > EEPROM_SIZE || atoi(subtoken) < 0 || !digit_check(subtoken) || strtok('\0', " ") != NULL)  //Check address
         {
           ERROR(3, subtoken);  //Incorrect address
           return 0;
@@ -110,7 +110,7 @@ void cli_explorer(char* token) {
 
     //__________DUMP__________
 
-    if ((strcmp(subtoken, "-d") == 0))  // Check key1 -d
+    if ((strcmp(subtoken, "-d") == 0) && strtok('\0', " ") == NULL)  // Check key1 -d
     {
       int num = 0;  // Cell address info (0000 0008...)
       int cnt = 0;  // Current cell address
@@ -135,7 +135,7 @@ void cli_explorer(char* token) {
 
     //__________HELP__________
 
-    if ((strcmp(subtoken, "-h") == 0))  // Check key1 -h
+    if ((strcmp(subtoken, "-h") == 0) && strtok('\0', " ") == NULL)  // Check key1 -h
     {
       Serial.print("                  EEPROM MANUAL                  \n\n     Syntax:  eeprom [key1] [key2] [address] [key3] [value]\n");
       Serial.print("     key1:  -w : Write to EEPROM. Example: \"eeprom -w [key2] [address] [key3] [value]\"\n            -r : Read from EEPROM. Example: \"eeprom -r [key2] [address]\"\n");
@@ -144,10 +144,10 @@ void cli_explorer(char* token) {
       Serial.print("     key3:  -v : Key for entering the value. Example: \"eeprom [key1] [key2] [address] -v 55\"\n");
       return 0;
     }
-    ERROR(2, subtoken);
+    ERROR(2, subtoken); //Incorrect key
     return 0;
   } else {
-    ERROR(1, subtoken);
+    ERROR(1, subtoken); //Incorrect command
     return 0;
   }
 }
